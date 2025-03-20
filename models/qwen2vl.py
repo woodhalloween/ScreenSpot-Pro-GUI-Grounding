@@ -4,9 +4,10 @@ from transformers.generation import GenerationConfig
 import json
 import re
 import os
+import tempfile
 from PIL import Image
 
-from qwen_vl_utils import process_vision_info
+from models.qwen_vl_utils import process_vision_info
 
 # bbox -> point (str)
 def bbox_2_point(bbox, dig=2):

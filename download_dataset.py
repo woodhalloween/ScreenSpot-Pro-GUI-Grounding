@@ -2,7 +2,7 @@ import os
 from huggingface_hub import hf_hub_download, snapshot_download
 
 # データ保存先ディレクトリ
-output_dir = "../data/ScreenSpot-Pro"
+output_dir = "./data/ScreenSpot-Pro"
 
 # ScreenSpot-Proデータセットをダウンロード
 print("ScreenSpot-Proデータセットをダウンロードしています...")
