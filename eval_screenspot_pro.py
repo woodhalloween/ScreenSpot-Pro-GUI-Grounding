@@ -9,6 +9,7 @@ import os
 from PIL import Image
 import logging
 from tqdm import tqdm
+import datetime
 
 
 logging.basicConfig(level=logging.INFO)
@@ -401,10 +402,68 @@ def evaluate(results):
 
     return result_report
 
+def parse_task_names(task_arg, screenspot_test):
+    """コマンドライン引数からタスク名を解析する"""
+    if task_arg == "all":
+        return [os.path.splitext(f)[0] for f in os.listdir(screenspot_test) if f.endswith(".json")]
+    else:
+        return task_arg.split(",")
+
+def parse_instruction_styles(inst_style_arg):
+    """コマンドライン引数から指示スタイルを解析する"""
+    if inst_style_arg == "all":
+        return INSTRUCTION_STYLES
+    else:
+        return inst_style_arg.split(",")
+
+def parse_languages(language_arg):
+    """コマンドライン引数から言語を解析する"""
+    if language_arg == "all":
+        return LANGUAGES
+    else:
+        return language_arg.split(",")
+
+def parse_gt_types(gt_type_arg):
+    """コマンドライン引数からGTタイプを解析する"""
+    if gt_type_arg == "all":
+        return GT_TYPES
+    else:
+        return gt_type_arg.split(",")
+
 def main(args):
     model = build_model(args)
     print("Load model success")
-
+    
+    # 結果保存ディレクトリを作成
+    os.makedirs(os.path.dirname(args.log_path), exist_ok=True)
+    
+    # 途中結果の保存先ファイルパス
+    partial_log_path = args.log_path + ".partial"
+    
+    # 既存の途中結果を読み込む
+    if os.path.exists(partial_log_path):
+        try:
+            with open(partial_log_path, 'r') as f:
+                partial_data = json.load(f)
+                results = partial_data.get('results', [])
+                print(f"Loaded {len(results)} results from partial file")
+                
+                # 既に処理済みのタスクを識別するIDを収集
+                processed_ids = set()
+                for r in results:
+                    if 'img_path' in r and 'task_filename' in r:
+                        task_id = r['task_filename'] + '_' + os.path.basename(r['img_path'])
+                        processed_ids.add(task_id)
+                print(f"Found {len(processed_ids)} processed task IDs")
+        except Exception as e:
+            print(f"Error loading partial results: {e}")
+            results = []
+            processed_ids = set()
+    else:
+        results = []
+        processed_ids = set()
+        
+    # タスクの読み込みと準備
     if args.task == "all":
         task_filenames = [
             os.path.splitext(f)[0]
@@ -428,12 +487,16 @@ def main(args):
         gt_types = GT_TYPES
     else:
         gt_types = args.gt_type.split(",")
-
+    
     tasks_to_run = []
     for task_filename in task_filenames:
         dataset = task_filename + ".json"
-        with open(os.path.join(args.screenspot_test, dataset), 'r') as f:
-            task_data = json.load(f)
+        try:
+            with open(os.path.join(args.screenspot_test, dataset), 'r') as f:
+                task_data = json.load(f)
+        except Exception as e:
+            print(f"Error loading task data {dataset}: {e}")
+            continue
 
         # Create the list of tasks to run, one item as an instance. Tasks may be reused.
         for inst_style in inst_styles:  # Expand tasks based on user configurations
@@ -445,29 +508,39 @@ def main(args):
                         task_instance["gt_type"] = gt_type
                         task_instance["instruction_style"] = inst_style
                         task_instance["language"] = lang
+                        
+                        # 既に処理済みかチェック
+                        img_filename = task_instance["img_filename"]
+                        task_id = task_filename + '_' + os.path.basename(img_filename)
+                        if task_id in processed_ids:
+                            # print(f"Skipping already processed task: {task_id}")
+                            continue
+                            
                         if lang == "cn":
                             if inst_style!= 'instruction' or gt_type != 'positive':
                                 # TODO: Translate the data
-                                raise AttributeError("Only positive samples and 'instruction' style are supported for Chinese instructions.")
+                                continue
                             task_instance["prompt_to_evaluate"] = task_instance["instruction_cn"]
                         elif lang == "en":
                             task_instance["prompt_to_evaluate"] = task_instance["instruction"]
 
                         tasks_to_run.append(task_instance)
         print(f"Num of sample in {task_filename}: {len(task_data)} * {len(inst_styles)} * {len(gt_types)} * {len(languages)} = {len(task_data) * len(inst_styles) * len(gt_types) * len(languages)}")
-    print(f"Total tasks: {len(tasks_to_run)}")
-
-    results = []
-    for sample in tqdm(tasks_to_run):
+    
+    print(f"Total tasks: {len(tasks_to_run) + len(processed_ids)}")
+    print(f"Already processed: {len(processed_ids)}")
+    print(f"Remaining tasks: {len(tasks_to_run)}")
+    
+    for i, sample in enumerate(tqdm(tasks_to_run)):
         filename = sample["img_filename"]
         img_path = os.path.join(args.screenspot_imgs, filename)
         print(f"Processing image: {filename}")
         print(f"Full image path: {img_path}")
         print(f"Image exists: {os.path.exists(img_path)}")
 
-        if task_instance["gt_type"] == "positive":
+        if sample["gt_type"] == "positive":
             response = model.ground_only_positive(instruction=sample["prompt_to_evaluate"], image=img_path)
-        elif task_instance["gt_type"] == "negative":
+        elif sample["gt_type"] == "negative":
             response = model.ground_allow_negative(instruction=sample["prompt_to_evaluate"], image=img_path)
         # print(response)
         point = response["point"]
@@ -499,12 +572,23 @@ def main(args):
         else:
             raise ValueError("Wrong instruction type")
 
-        
         sample_result.update({
             "correctness": correctness,
         })
         results.append(sample_result)
         
+        # 10タスクごとに途中結果を保存
+        if (i + 1) % 10 == 0 or i == len(tasks_to_run) - 1:
+            try:
+                # 確実に保存するためにディレクトリを作成
+                os.makedirs(os.path.dirname(partial_log_path), exist_ok=True)
+                
+                with open(partial_log_path, 'w') as f:
+                    json.dump({'results': results, 'timestamp': str(datetime.datetime.now())}, f, indent=4)
+                print(f"Saved partial results ({len(results)} items) to {partial_log_path}")
+            except Exception as e:
+                print(f"Error saving partial results: {e}")
+
     result_report = evaluate(results)
     # Save to file
     os.makedirs(os.path.dirname(args.log_path), exist_ok=True)
