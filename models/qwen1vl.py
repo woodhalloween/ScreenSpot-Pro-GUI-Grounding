@@ -2,6 +2,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers.generation import GenerationConfig
 import re
 import os
+import tempfile
 from PIL import Image
 
 # bbox -> point (str)
@@ -49,7 +50,7 @@ def image_to_temp_filename(image):
 
 class Qwen1VLModel():
     def load_model(self, model_name_or_path="Qwen/Qwen-VL-Chat"):
-        self.model = AutoModelForCausalLM.from_pretrained(model_name_or_path, device_map="cuda", trust_remote_code=True, bf16=True).eval()
+        self.model = AutoModelForCausalLM.from_pretrained(model_name_or_path, device_map="cpu", trust_remote_code=True).eval()
         self.tokenizer = AutoTokenizer.from_pretrained(model_name_or_path, trust_remote_code=True)
 
         # Setting default generation config
