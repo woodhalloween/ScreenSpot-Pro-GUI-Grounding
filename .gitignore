@@ -33,8 +33,9 @@ venv/
 ENV/
 .python-version
 
-# 結果出力ディレクトリ
-/results/
+# 結果ファイルはGitで追跡する
+# /results/*.json
+# /results/*.partial
 
 # エディタ設定
 .idea/
