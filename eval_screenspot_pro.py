@@ -461,6 +461,9 @@ def main(args):
     for sample in tqdm(tasks_to_run):
         filename = sample["img_filename"]
         img_path = os.path.join(args.screenspot_imgs, filename)
+        print(f"Processing image: {filename}")
+        print(f"Full image path: {img_path}")
+        print(f"Image exists: {os.path.exists(img_path)}")
 
         if task_instance["gt_type"] == "positive":
             response = model.ground_only_positive(instruction=sample["prompt_to_evaluate"], image=img_path)

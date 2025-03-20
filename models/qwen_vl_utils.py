@@ -51,4 +51,4 @@ def process_vision_info(messages):
                     
                     image_inputs.append(image)
     
-    return image_inputs, video_inputs 
+    return image_inputs, video_inputs
