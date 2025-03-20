@@ -13,10 +13,10 @@ def process_vision_info(messages):
         
     Returns:
         image_inputs: List of processed images
-        video_inputs: List of processed videos (empty for now)
+        video_inputs: None (ビデオは処理しない)
     """
     image_inputs = []
-    video_inputs = []
+    video_inputs = None  # Noneに変更（空リストではなく）
     
     for message in messages:
         if message["role"] == "user":

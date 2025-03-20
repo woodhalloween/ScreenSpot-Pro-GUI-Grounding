@@ -7,7 +7,7 @@ import os
 import tempfile
 from PIL import Image
 
-from models.qwen_vl_utils import process_vision_info
+from qwen_vl_utils import process_vision_info
 
 # bbox -> point (str)
 def bbox_2_point(bbox, dig=2):
@@ -106,6 +106,11 @@ class Qwen2VLModel():
             messages, tokenize=False, add_generation_prompt=True
         )
         image_inputs, video_inputs = process_vision_info(messages)
+        
+        # ビデオ入力がNoneの場合はからリストにする
+        if video_inputs is None:
+            video_inputs = []
+        
         inputs = self.processor(
             text=[text_input],
             images=image_inputs,
@@ -178,6 +183,11 @@ class Qwen2VLModel():
             messages, tokenize=False, add_generation_prompt=True
         )
         image_inputs, video_inputs = process_vision_info(messages)
+        
+        # ビデオ入力がNoneの場合はからリストにする
+        if video_inputs is None:
+            video_inputs = []
+        
         inputs = self.processor(
             text=[text_input],
             images=image_inputs,
