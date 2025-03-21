@@ -1,5 +1,5 @@
 {
-    "results": [
+    "details": [
         {
             "img_path": "./data/ScreenSpot-Pro/images/quartus_windows/screenshot_2024-11-02_18-46-37.png",
             "group": "Dev",
@@ -37528,5 +37528,510 @@
             "correctness": "wrong"
         }
     ],
-    "timestamp": "2025-03-21 05:36:13.411377"
+    "metrics": {
+        "fine_grained": {
+            "plat:macos app:davinci inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 44,
+                "wrong_format_num": 11,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:excel inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 64,
+                "wrong_format_num": 13,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:macos_common inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 65,
+                "wrong_format_num": 12,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:vscode inst_style:instruction gt_type:positive": {
+                "num_correct_action": 2,
+                "num_total": 55,
+                "wrong_format_num": 4,
+                "action_acc": 0.03636363636363636,
+                "text_acc": 0.06060606060606061,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:android_studio inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 80,
+                "wrong_format_num": 0,
+                "action_acc": 0.0125,
+                "text_acc": 0.027777777777777776,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:word inst_style:instruction gt_type:positive": {
+                "num_correct_action": 5,
+                "num_total": 84,
+                "wrong_format_num": 2,
+                "action_acc": 0.05952380952380952,
+                "text_acc": 0.07246376811594203,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:pycharm inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 78,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:vmware inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 41,
+                "wrong_format_num": 10,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:macos app:matlab inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 93,
+                "wrong_format_num": 9,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:fruitloops inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 57,
+                "wrong_format_num": 3,
+                "action_acc": 0.017543859649122806,
+                "text_acc": 0.038461538461538464,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:photoshop inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 51,
+                "wrong_format_num": 1,
+                "action_acc": 0.0196078431372549,
+                "text_acc": 0.038461538461538464,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:powerpoint inst_style:instruction gt_type:positive": {
+                "num_correct_action": 2,
+                "num_total": 82,
+                "wrong_format_num": 24,
+                "action_acc": 0.024390243902439025,
+                "text_acc": 0.017543859649122806,
+                "icon_acc": 0.04
+            },
+            "plat:windows app:origin inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 62,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:quartus inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 45,
+                "wrong_format_num": 1,
+                "action_acc": 0.022222222222222223,
+                "text_acc": 0.07692307692307693,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:blender inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 71,
+                "wrong_format_num": 4,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:eviews inst_style:instruction gt_type:positive": {
+                "num_correct_action": 6,
+                "num_total": 50,
+                "wrong_format_num": 12,
+                "action_acc": 0.12,
+                "text_acc": 0.11627906976744186,
+                "icon_acc": 0.14285714285714285
+            },
+            "plat:windows app:inventor inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 70,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:autocad inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 34,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:vivado inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 80,
+                "wrong_format_num": 3,
+                "action_acc": 0.0125,
+                "text_acc": 0.020833333333333332,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:illustrator inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 31,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:solidworks inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 77,
+                "wrong_format_num": 1,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:windows_common inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 81,
+                "wrong_format_num": 11,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:premiere inst_style:instruction gt_type:positive": {
+                "num_correct_action": 0,
+                "num_total": 52,
+                "wrong_format_num": 0,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:unreal_engine inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 35,
+                "wrong_format_num": 4,
+                "action_acc": 0.02857142857142857,
+                "text_acc": 0.034482758620689655,
+                "icon_acc": 0.0
+            },
+            "plat:windows app:stata inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 49,
+                "wrong_format_num": 0,
+                "action_acc": 0.02040816326530612,
+                "text_acc": 0.125,
+                "icon_acc": 0.0
+            },
+            "plat:linux app:linux_common inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 50,
+                "wrong_format_num": 4,
+                "action_acc": 0.02,
+                "text_acc": 0.03225806451612903,
+                "icon_acc": 0.0
+            }
+        },
+        "seeclick_style": {
+            "plat:macos inst_style:instruction gt_type:positive": {
+                "num_correct_action": 8,
+                "num_total": 604,
+                "wrong_format_num": 63,
+                "action_acc": 0.013245033112582781,
+                "text_acc": 0.020100502512562814,
+                "icon_acc": 0.0
+            },
+            "plat:windows inst_style:instruction gt_type:positive": {
+                "num_correct_action": 14,
+                "num_total": 927,
+                "wrong_format_num": 72,
+                "action_acc": 0.015102481121898598,
+                "text_acc": 0.021897810218978103,
+                "icon_acc": 0.005277044854881266
+            },
+            "plat:linux inst_style:instruction gt_type:positive": {
+                "num_correct_action": 1,
+                "num_total": 50,
+                "wrong_format_num": 4,
+                "action_acc": 0.02,
+                "text_acc": 0.03225806451612903,
+                "icon_acc": 0.0
+            }
+        },
+        "leaderboard_simple_style": {
+            "group:OS": {
+                "num_correct_action": 1,
+                "num_total": 196,
+                "wrong_format_num": 27,
+                "action_acc": 0.00510204081632653,
+                "text_acc": 0.009345794392523364,
+                "icon_acc": 0.0
+            },
+            "group:Scientific": {
+                "num_correct_action": 7,
+                "num_total": 254,
+                "wrong_format_num": 23,
+                "action_acc": 0.027559055118110236,
+                "text_acc": 0.041666666666666664,
+                "icon_acc": 0.00909090909090909
+            },
+            "group:Creative": {
+                "num_correct_action": 3,
+                "num_total": 341,
+                "wrong_format_num": 25,
+                "action_acc": 0.008797653958944282,
+                "text_acc": 0.015151515151515152,
+                "icon_acc": 0.0
+            },
+            "group:Dev": {
+                "num_correct_action": 4,
+                "num_total": 299,
+                "wrong_format_num": 17,
+                "action_acc": 0.013377926421404682,
+                "text_acc": 0.025974025974025976,
+                "icon_acc": 0.0
+            },
+            "group:Office": {
+                "num_correct_action": 7,
+                "num_total": 230,
+                "wrong_format_num": 39,
+                "action_acc": 0.030434782608695653,
+                "text_acc": 0.03389830508474576,
+                "icon_acc": 0.018867924528301886
+            },
+            "group:CAD": {
+                "num_correct_action": 1,
+                "num_total": 261,
+                "wrong_format_num": 8,
+                "action_acc": 0.0038314176245210726,
+                "text_acc": 0.005076142131979695,
+                "icon_acc": 0.0
+            }
+        },
+        "leaderboard_detailed_style": {
+            "app:fruitloops": {
+                "num_correct_action": 1,
+                "num_total": 57,
+                "wrong_format_num": 3,
+                "action_acc": 0.017543859649122806,
+                "text_acc": 0.038461538461538464,
+                "icon_acc": 0.0
+            },
+            "app:davinci": {
+                "num_correct_action": 0,
+                "num_total": 44,
+                "wrong_format_num": 11,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:excel": {
+                "num_correct_action": 0,
+                "num_total": 64,
+                "wrong_format_num": 13,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:photoshop": {
+                "num_correct_action": 1,
+                "num_total": 51,
+                "wrong_format_num": 1,
+                "action_acc": 0.0196078431372549,
+                "text_acc": 0.038461538461538464,
+                "icon_acc": 0.0
+            },
+            "app:macos_common": {
+                "num_correct_action": 0,
+                "num_total": 65,
+                "wrong_format_num": 12,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:powerpoint": {
+                "num_correct_action": 2,
+                "num_total": 82,
+                "wrong_format_num": 24,
+                "action_acc": 0.024390243902439025,
+                "text_acc": 0.017543859649122806,
+                "icon_acc": 0.04
+            },
+            "app:origin": {
+                "num_correct_action": 0,
+                "num_total": 62,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:quartus": {
+                "num_correct_action": 1,
+                "num_total": 45,
+                "wrong_format_num": 1,
+                "action_acc": 0.022222222222222223,
+                "text_acc": 0.07692307692307693,
+                "icon_acc": 0.0
+            },
+            "app:vscode": {
+                "num_correct_action": 2,
+                "num_total": 55,
+                "wrong_format_num": 4,
+                "action_acc": 0.03636363636363636,
+                "text_acc": 0.06060606060606061,
+                "icon_acc": 0.0
+            },
+            "app:android_studio": {
+                "num_correct_action": 1,
+                "num_total": 80,
+                "wrong_format_num": 0,
+                "action_acc": 0.0125,
+                "text_acc": 0.027777777777777776,
+                "icon_acc": 0.0
+            },
+            "app:blender": {
+                "num_correct_action": 0,
+                "num_total": 71,
+                "wrong_format_num": 4,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:word": {
+                "num_correct_action": 5,
+                "num_total": 84,
+                "wrong_format_num": 2,
+                "action_acc": 0.05952380952380952,
+                "text_acc": 0.07246376811594203,
+                "icon_acc": 0.0
+            },
+            "app:eviews": {
+                "num_correct_action": 6,
+                "num_total": 50,
+                "wrong_format_num": 12,
+                "action_acc": 0.12,
+                "text_acc": 0.11627906976744186,
+                "icon_acc": 0.14285714285714285
+            },
+            "app:pycharm": {
+                "num_correct_action": 0,
+                "num_total": 78,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:inventor": {
+                "num_correct_action": 0,
+                "num_total": 70,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:autocad": {
+                "num_correct_action": 0,
+                "num_total": 34,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:vivado": {
+                "num_correct_action": 1,
+                "num_total": 80,
+                "wrong_format_num": 3,
+                "action_acc": 0.0125,
+                "text_acc": 0.020833333333333332,
+                "icon_acc": 0.0
+            },
+            "app:vmware": {
+                "num_correct_action": 0,
+                "num_total": 41,
+                "wrong_format_num": 10,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:illustrator": {
+                "num_correct_action": 0,
+                "num_total": 31,
+                "wrong_format_num": 2,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:linux_common": {
+                "num_correct_action": 1,
+                "num_total": 50,
+                "wrong_format_num": 4,
+                "action_acc": 0.02,
+                "text_acc": 0.03225806451612903,
+                "icon_acc": 0.0
+            },
+            "app:solidworks": {
+                "num_correct_action": 0,
+                "num_total": 77,
+                "wrong_format_num": 1,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:windows_common": {
+                "num_correct_action": 0,
+                "num_total": 81,
+                "wrong_format_num": 11,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:matlab": {
+                "num_correct_action": 0,
+                "num_total": 93,
+                "wrong_format_num": 9,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:premiere": {
+                "num_correct_action": 0,
+                "num_total": 52,
+                "wrong_format_num": 0,
+                "action_acc": 0.0,
+                "text_acc": 0.0,
+                "icon_acc": 0.0
+            },
+            "app:unreal_engine": {
+                "num_correct_action": 1,
+                "num_total": 35,
+                "wrong_format_num": 4,
+                "action_acc": 0.02857142857142857,
+                "text_acc": 0.034482758620689655,
+                "icon_acc": 0.0
+            },
+            "app:stata": {
+                "num_correct_action": 1,
+                "num_total": 49,
+                "wrong_format_num": 0,
+                "action_acc": 0.02040816326530612,
+                "text_acc": 0.125,
+                "icon_acc": 0.0
+            }
+        },
+        "overall": {
+            "num_correct_action": 23,
+            "num_total": 1581,
+            "wrong_format_num": 139,
+            "action_acc": 0.01454775458570525,
+            "text_acc": 0.021494370522006142,
+            "icon_acc": 0.0033112582781456954
+        }
+    }
 }
