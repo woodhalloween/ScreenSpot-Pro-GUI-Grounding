@@ -15,6 +15,20 @@ Before you begin, ensure your environment variables are set:
 
 ### Environment Setup
 
+#### Option 1: Simple pip installation (Recommended)
+```bash
+# Install all required dependencies
+pip install torch>=2.0.0 transformers>=4.40.0 pillow==10.2.0 tqdm==4.66.2 accelerate==1.5.2 qwen-vl-utils==0.0.10 torchvision==0.21.0 --upgrade jinja2
+
+# Or install individually
+pip install torch>=2.0.0 transformers>=4.40.0 pillow==10.2.0 tqdm==4.66.2 accelerate==1.5.2 qwen-vl-utils==0.0.10 torchvision==0.21.0
+pip install --upgrade jinja2
+
+# Download required datasets
+python download_dataset.py
+```
+
+#### Option 2: Poetry installation
 1. Install Poetry:
 ```bash
 pip install poetry
@@ -68,6 +82,12 @@ PYTHONPATH=$PWD python eval_screenspot_pro.py --model_type qwen2vl --screenspot_
 ```
 
 The evaluation supports automatic checkpointing - if interrupted, you can run the same command again to resume from where it left off. Progress is automatically saved every 10 tasks to a `.partial` file.
+
+### Important Notes
+- When using the simple pip installation (Option 1), FlashAttention2 is not required and the model will run without it
+- The `PYTHONPATH=$PWD` environment variable is needed to properly locate modules in the project directory
+- You may see some warning messages during execution, but they will not affect model performance
+- The Jinja2 upgrade is necessary to resolve potential template processing issues
 
 # Citation
 Please consider citing if you find our work useful:
