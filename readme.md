@@ -40,6 +40,12 @@ poetry shell
 python download_dataset.py
 ```
 
+6. Configure Git (if you plan to commit changes):
+```bash
+git config --global user.name "あなたの名前"
+git config --global user.email "あなたのメールアドレス"
+```
+
 ### Requirements
 - Python version: >=3.10, <3.12
 - PyTorch: >=2.0.0
