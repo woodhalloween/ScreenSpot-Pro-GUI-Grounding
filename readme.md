@@ -13,6 +13,38 @@ Before you begin, ensure your environment variables are set:
 
 - `OPENAI_API_KEY`: Your OpenAI API key.
 
+### Environment Setup
+
+1. Install Poetry:
+```bash
+pip install poetry
+```
+
+2. Update Poetry lock file:
+```bash
+poetry lock
+```
+
+3. Install dependencies:
+```bash
+poetry install
+```
+
+4. Activate virtual environment:
+```bash
+poetry shell
+```
+
+5. Download required datasets:
+```bash
+python download_dataset.py
+```
+
+### Requirements
+- Python version: >=3.10, <3.12
+- PyTorch: >=2.0.0
+- Sufficient disk space for models and datasets
+
 ## Evaluation
 Use the shell scripts to launch the evaluation. 
 ```bash 
