@@ -35,6 +35,28 @@ class Qwen25VLModel:
         self.model.eval()
         print("Model loaded successfully.")
 
+    def set_generation_config(self, temperature=0, max_new_tokens=256, **kwargs):
+        """生成設定を更新する
+        
+        Args:
+            temperature: 生成時の温度パラメータ
+            max_new_tokens: 生成する最大トークン数
+            **kwargs: その他の生成設定パラメータ
+        """
+        # デフォルト値を設定
+        generation_config = {
+            "temperature": temperature,
+            "max_new_tokens": max_new_tokens,
+            "do_sample": temperature > 0,
+        }
+        
+        # 追加のパラメータで更新
+        generation_config.update(kwargs)
+        
+        # クラス変数として保存
+        self.generation_config = generation_config
+        print(f"Generation config set: {generation_config}")
+
     def ground_only_positive(self, instruction, image):
         """正の結果のみを処理（ターゲットが存在すると仮定）"""
         # 画像のパスを取得
@@ -64,7 +86,8 @@ class Qwen25VLModel:
         prompt = f"Output the bounding box in the image corresponding to the instruction \"{instruction}\" with grounding."
         
         # メッセージ準備
-        message = NousFnCallPrompt.preprocess_fncall_messages(
+        nous_prompt = NousFnCallPrompt()
+        message = nous_prompt.preprocess_fncall_messages(
             messages=[
                 Message(role="system", content=[ContentItem(text="You are a helpful assistant.")]),
                 Message(role="user", content=[
@@ -82,7 +105,10 @@ class Qwen25VLModel:
         inputs = self.processor(text=[text], images=[input_image], padding=True, return_tensors="pt").to(self.model.device)
         
         # 生成
-        output_ids = self.model.generate(**inputs, max_new_tokens=2048)
+        generation_params = {"max_new_tokens": 2048}
+        if hasattr(self, "generation_config"):
+            generation_params.update(self.generation_config)
+        output_ids = self.model.generate(**inputs, **generation_params)
         generated_ids = output_ids[:, inputs.input_ids.shape[1]:]
         output_text = self.processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)[0]
         
@@ -155,7 +181,8 @@ class Qwen25VLModel:
         prompt = f'Output the bounding box in the image corresponding to the instruction "{instruction}". If the target does not exist, respond with "Target does not exist".'
         
         # メッセージ準備
-        message = NousFnCallPrompt.preprocess_fncall_messages(
+        nous_prompt = NousFnCallPrompt()
+        message = nous_prompt.preprocess_fncall_messages(
             messages=[
                 Message(role="system", content=[ContentItem(text="You are a helpful assistant.")]),
                 Message(role="user", content=[
@@ -173,7 +200,10 @@ class Qwen25VLModel:
         inputs = self.processor(text=[text], images=[input_image], padding=True, return_tensors="pt").to(self.model.device)
         
         # 生成
-        output_ids = self.model.generate(**inputs, max_new_tokens=2048)
+        generation_params = {"max_new_tokens": 2048}
+        if hasattr(self, "generation_config"):
+            generation_params.update(self.generation_config)
+        output_ids = self.model.generate(**inputs, **generation_params)
         generated_ids = output_ids[:, inputs.input_ids.shape[1]:]
         output_text = self.processor.batch_decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)[0]
         
