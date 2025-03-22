@@ -1,15 +1,14 @@
 #!/bin/bash
+set -e
 
-# Set environment variables
-export PYTHONPATH=$PWD
+# Qwen2.5VL専用評価スクリプト
 
-# Run the evaluation with Qwen2.5-VL model
-python run_qwen25vl.py \
-    --model_path "Qwen/Qwen2.5-VL-7B-Instruct" \
-    --screenspot_imgs "./data/ScreenSpot-Pro/images" \
-    --screenspot_test "./data/ScreenSpot-Pro/annotations" \
+python eval_screenspot_pro.py  \
+    --model_type qwen25vl  \
+    --screenspot_imgs "./data/ScreenSpot-Pro/images"  \
+    --screenspot_test "./data/ScreenSpot-Pro/annotations"  \
     --task "all" \
     --language "en" \
     --gt_type "positive" \
     --log_path "./results/qwen25vl.json" \
-    --visualize
+    --inst_style "instruction"
