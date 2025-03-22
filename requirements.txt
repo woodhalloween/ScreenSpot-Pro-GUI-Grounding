@@ -29,3 +29,4 @@ typing-extensions>=4.12.2
 urllib3>=2.3.0
 einops>=0.8.1
 flash-attn>=2.7.4
+qwen-agent>=0.1.0
