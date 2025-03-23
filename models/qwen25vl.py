@@ -7,7 +7,7 @@ from PIL import Image
 from transformers import Qwen2_5_VLProcessor, Qwen2_5_VLForConditionalGeneration
 from transformers.models.qwen2_vl.image_processing_qwen2_vl_fast import smart_resize
 from qwen_agent.llm.fncall_prompts.nous_fncall_prompt import NousFnCallPrompt, Message, ContentItem
-from utils.mobile_computer_tools import ComputerUse
+from utils.device_interaction_tools import ComputerUse
 
 def bbox_from_point(point, size=0.05):
     """ポイント座標からBBoxを作成"""
