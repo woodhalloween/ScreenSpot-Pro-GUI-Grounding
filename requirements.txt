@@ -28,5 +28,11 @@ transformers>=4.49.0
 typing-extensions>=4.12.2
 urllib3>=2.3.0
 einops>=0.8.1
-flash-attn>=2.7.4
+flash-attn==2.7.4.post1
 qwen-agent>=0.1.0
+
+# 追加の依存関係
+git+https://github.com/huggingface/transformers
+accelerate
+utils
+qwen-agent
