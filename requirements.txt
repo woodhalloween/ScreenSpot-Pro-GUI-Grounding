@@ -24,7 +24,7 @@ tokenizers>=0.21.1
 torch>=2.6.0
 torchvision>=0.21.0
 tqdm>=4.67.1
-transformers>=4.49.0
+
 typing-extensions>=4.12.2
 einops>=0.8.1
 flash-attn==2.7.4.post1

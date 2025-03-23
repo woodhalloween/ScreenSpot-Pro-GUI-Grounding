@@ -613,11 +613,18 @@ def main(args):
                 metrics_summary += f"テキスト精度: {partial_metrics['metrics']['overall']['text_acc']:.4f}\n"
                 metrics_summary += f"アイコン精度: {partial_metrics['metrics']['overall']['icon_acc']:.4f}\n"
                 
+                # wrong_formatの割合を計算
+                wrong_format_rate = partial_metrics['metrics']['overall']['wrong_format_num'] / partial_metrics['metrics']['overall']['num_total'] if partial_metrics['metrics']['overall']['num_total'] > 0 else 0
+                metrics_summary += f"Wrong Format率: {wrong_format_rate:.4f} ({partial_metrics['metrics']['overall']['wrong_format_num']}/{partial_metrics['metrics']['overall']['num_total']})\n"
+                
                 # 最新のスコアを表示
                 print("\n" + metrics_summary)
                 
                 # 部分的な結果とメトリクスを保存
                 with open(partial_log_path, 'w') as f:
+                    # wrong_format_rateをメトリクスに追加
+                    partial_metrics['metrics']['overall']['wrong_format_rate'] = wrong_format_rate
+                    
                     json.dump({
                         'results': results, 
                         'timestamp': str(datetime.datetime.now()),
