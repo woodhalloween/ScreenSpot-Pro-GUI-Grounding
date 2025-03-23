@@ -462,6 +462,14 @@ def main(args):
                         task_id = r['task_filename'] + '_' + os.path.basename(r['img_path'])
                         processed_ids.add(task_id)
                 print(f"Found {len(processed_ids)} processed task IDs")
+                
+                # 既に評価メトリクスが計算されていれば表示
+                if 'partial_metrics' in partial_data:
+                    print("最新の部分評価結果:")
+                    print(f"Action Accuracy: {partial_data['partial_metrics']['overall']['action_acc']:.4f}")
+                    print(f"Text Accuracy: {partial_data['partial_metrics']['overall']['text_acc']:.4f}")
+                    print(f"Icon Accuracy: {partial_data['partial_metrics']['overall']['icon_acc']:.4f}")
+                    
         except Exception as e:
             print(f"Error loading partial results: {e}")
             results = []
@@ -538,6 +546,9 @@ def main(args):
     print(f"Already processed: {len(processed_ids)}")
     print(f"Remaining tasks: {len(tasks_to_run)}")
     
+    # 10件タスク処理ごとのカウンター
+    tasks_since_last_eval = 0
+    
     for i, sample in enumerate(tqdm(tasks_to_run)):
         filename = sample["img_filename"]
         img_path = os.path.join(args.screenspot_imgs, filename)
@@ -546,9 +557,9 @@ def main(args):
         print(f"Image exists: {os.path.exists(img_path)}")
 
         if sample["gt_type"] == "positive":
-            response = model.ground_only_positive(instruction=sample["prompt_to_evaluate"], image=img_path)
+            response = model.ground_only_positive(instruction=sample["prompt_to_evaluate"], image=img_path, platform=sample["platform"].lower())
         elif sample["gt_type"] == "negative":
-            response = model.ground_allow_negative(instruction=sample["prompt_to_evaluate"], image=img_path)
+            response = model.ground_allow_negative(instruction=sample["prompt_to_evaluate"], image=img_path, platform=sample["platform"].lower())
         # print(response)
         point = response["point"]
         img_size = sample["img_size"]
@@ -583,19 +594,52 @@ def main(args):
             "correctness": correctness,
         })
         results.append(sample_result)
+        tasks_since_last_eval += 1
         
-        # 10タスクごとに途中結果を保存
-        if (i + 1) % 10 == 0 or i == len(tasks_to_run) - 1:
+        # 10タスクごとに途中結果とメトリクスを保存
+        if tasks_since_last_eval >= 10 or i == len(tasks_to_run) - 1:
+            tasks_since_last_eval = 0
             try:
                 # 確実に保存するためにディレクトリを作成
                 os.makedirs(os.path.dirname(partial_log_path), exist_ok=True)
                 
+                # 部分的な評価結果を計算
+                partial_metrics = evaluate(results)
+                
+                # 結果を文字列としてフォーマット
+                current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                metrics_summary = f"=== メトリクス更新: {current_time} (処理済み: {len(results)}/{len(tasks_to_run) + len(processed_ids)}) ===\n"
+                metrics_summary += f"全体精度: {partial_metrics['metrics']['overall']['action_acc']:.4f}\n"
+                metrics_summary += f"テキスト精度: {partial_metrics['metrics']['overall']['text_acc']:.4f}\n"
+                metrics_summary += f"アイコン精度: {partial_metrics['metrics']['overall']['icon_acc']:.4f}\n"
+                
+                # 最新のスコアを表示
+                print("\n" + metrics_summary)
+                
+                # 部分的な結果とメトリクスを保存
                 with open(partial_log_path, 'w') as f:
-                    json.dump({'results': results, 'timestamp': str(datetime.datetime.now())}, f, indent=4)
-                print(f"Saved partial results ({len(results)} items) to {partial_log_path}")
+                    json.dump({
+                        'results': results, 
+                        'timestamp': str(datetime.datetime.now()),
+                        'partial_metrics': partial_metrics['metrics'],
+                        'metrics_summary': metrics_summary
+                    }, f, indent=4)
+                print(f"Saved partial results and metrics ({len(results)} items) to {partial_log_path}")
+                
+                # プラットフォーム別の精度を表示（オプション）
+                if 'seeclick_style' in partial_metrics['metrics']:
+                    print("\nプラットフォーム別精度:")
+                    for key, value in partial_metrics['metrics']['seeclick_style'].items():
+                        if 'plat:' in key and 'gt_type:positive' in key:
+                            platform = key.split('plat:')[1].split(' ')[0]
+                            print(f"{platform}: {value['action_acc']:.4f} ({value['num_correct_action']}/{value['num_total']})")
+                
             except Exception as e:
-                print(f"Error saving partial results: {e}")
+                print(f"Error saving partial results and metrics: {e}")
+                import traceback
+                traceback.print_exc()
 
+    # 最終評価と保存
     result_report = evaluate(results)
     # Save to file
     os.makedirs(os.path.dirname(args.log_path), exist_ok=True)

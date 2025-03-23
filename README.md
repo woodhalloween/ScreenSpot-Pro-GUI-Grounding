@@ -17,8 +17,7 @@ Before you begin, ensure your environment variables are set:
 
 #### Option 1: Simple pip installation (Recommended)
 ```bash
-# Using requirements.txt (Recommended)
-pip install -r requirements.txt
+# Using requirements.txt (Recommen
 
 # Or install all required dependencies manually
 pip install torch>=2.0.0 transformers>=4.40.0 pillow==10.2.0 tqdm==4.66.2 accelerate==1.5.2 qwen-vl-utils==0.0.10 torchvision==0.21.0 --upgrade jinja2
