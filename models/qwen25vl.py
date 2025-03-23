@@ -8,6 +8,7 @@ from transformers import Qwen2_5_VLProcessor, Qwen2_5_VLForConditionalGeneration
 from transformers.models.qwen2_vl.image_processing_qwen2_vl_fast import smart_resize
 from qwen_agent.llm.fncall_prompts.nous_fncall_prompt import NousFnCallPrompt, Message, ContentItem
 from utils.device_interaction_tools import ComputerUse
+from enhanced_prompt import EnhancedUIPrompt
 
 def bbox_from_point(point, size=0.05):
     """ポイント座標からBBoxを作成"""
@@ -57,7 +58,7 @@ class Qwen25VLModel:
         self.generation_config = generation_config
         print(f"Generation config set: {generation_config}")
 
-    def ground_only_positive(self, instruction, image):
+    def ground_only_positive(self, instruction, image, platform="windows"):
         """正の結果のみを処理（ターゲットが存在すると仮定）"""
         # 画像のパスを取得
         if not isinstance(image, str):
@@ -82,16 +83,29 @@ class Qwen25VLModel:
             cfg={"display_width_px": resized_width, "display_height_px": resized_height}
         )
         
-        # プロンプトの作成
-        prompt = f"Output the bounding box in the image corresponding to the instruction \"{instruction}\" with grounding."
+        # 強化プロンプトの使用
+        # システムプロンプトの生成
+        system_prompt = EnhancedUIPrompt.generate_system_prompt(resized_width, resized_height)
+        
+        # プラットフォーム固有のヒントを取得
+        platform_hints = EnhancedUIPrompt.get_platform_specific_hints(platform)
+        
+        # UI要素タイプを推測してコンテキストを構築
+        ui_context = f"Platform: {platform}. {platform_hints}"
+        
+        # 最適化されたプロンプトを生成
+        optimized_prompt = EnhancedUIPrompt.format_instruction_prompt(
+            instruction, 
+            ui_context=ui_context
+        )
         
         # メッセージ準備
         nous_prompt = NousFnCallPrompt()
         message = nous_prompt.preprocess_fncall_messages(
             messages=[
-                Message(role="system", content=[ContentItem(text="You are a helpful assistant.")]),
+                Message(role="system", content=[ContentItem(text=system_prompt)]),
                 Message(role="user", content=[
-                    ContentItem(text=prompt),
+                    ContentItem(text=optimized_prompt),
                     ContentItem(image=f"file://{image_path}")
                 ]),
             ],
@@ -152,7 +166,7 @@ class Qwen25VLModel:
         
         return result_dict
 
-    def ground_allow_negative(self, instruction, image):
+    def ground_allow_negative(self, instruction, image, platform="windows"):
         """ネガティブな結果も処理（ターゲットが存在しない可能性）"""
         # 画像のパスを取得
         if not isinstance(image, str):
@@ -177,16 +191,29 @@ class Qwen25VLModel:
             cfg={"display_width_px": resized_width, "display_height_px": resized_height}
         )
         
-        # プロンプトの作成
-        prompt = f'Output the bounding box in the image corresponding to the instruction "{instruction}". If the target does not exist, respond with "Target does not exist".'
+        # 強化プロンプトの使用
+        # システムプロンプトの生成
+        system_prompt = EnhancedUIPrompt.generate_system_prompt(resized_width, resized_height)
+        
+        # プラットフォーム固有のヒントを取得
+        platform_hints = EnhancedUIPrompt.get_platform_specific_hints(platform)
+        
+        # UI要素タイプを推測してコンテキストを構築
+        ui_context = f"Platform: {platform}. {platform_hints} If the target element does not exist in the image, respond with 'Target does not exist' instead of providing coordinates."
+        
+        # 最適化されたプロンプトを生成
+        optimized_prompt = EnhancedUIPrompt.format_instruction_prompt(
+            instruction, 
+            ui_context=ui_context
+        )
         
         # メッセージ準備
         nous_prompt = NousFnCallPrompt()
         message = nous_prompt.preprocess_fncall_messages(
             messages=[
-                Message(role="system", content=[ContentItem(text="You are a helpful assistant.")]),
+                Message(role="system", content=[ContentItem(text=system_prompt)]),
                 Message(role="user", content=[
-                    ContentItem(text=prompt),
+                    ContentItem(text=optimized_prompt),
                     ContentItem(image=f"file://{image_path}")
                 ]),
             ],
