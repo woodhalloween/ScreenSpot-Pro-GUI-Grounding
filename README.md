@@ -61,6 +61,9 @@ python download_dataset.py
 ```bash
 git config --global user.name "あなたの名前"
 git config --global user.email "あなたのメールアドレス"
+
+git config --global user.name "woodhalloween"
+git config --global user.email "woodhalloween@gmail.com"
 ```
 
 ### Requirements
