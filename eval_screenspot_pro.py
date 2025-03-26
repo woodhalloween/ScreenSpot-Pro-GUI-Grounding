@@ -63,6 +63,13 @@ def build_model(args):
             model.load_model(model_name_or_path=model_name_or_path)
         else:
             model.load_model()
+    elif model_type == "qwen25vlsft":
+        from models.qwen25vlsft import Qwen25VLModel
+        model = Qwen25VLModel()
+        if args.model_name_or_path:
+            model.load_model(model_name_or_path=model_name_or_path)
+        else:
+            model.load_model()
     elif model_type == "minicpmv":
         from models.minicpmv import MiniCPMVModel
         model = MiniCPMVModel()
